@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block main %}
+
+
+<form action="/login" method="post" class="text-center">
+  <img class="mb-4" src="/static/todoify.png" alt="" width="72" height="72">
+  <h1>Log in</h1>
+
+  <div class="container mt-4">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <div class="form-floating my-2" style="width: 100%; max-width: 400px;">
+      <input required type="text" name="username" autocomplete='off' autofocus class="form-control" id="floatingInput"
+        placeholder="Username">
+      <label for="floatingInput">Username</label>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <div class="form-floating my-2" style="width: 100%; max-width: 400px;">
+      <input required type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+      <label for="floatingPassword">Password</label>
+    </div>
+  </div>
+
+  <button class="btn btn-lg btn-primary my-4 w-100" style="max-width: 400px;" type="submit">Submit</button>
+</form>
+
+
+
+
+
+{% endblock %}

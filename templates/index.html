@@ -1,0 +1,140 @@
+{% extends "layout.html" %} {% block title %} Tasks {% endblock %}
+
+
+{% block main %}
+<h1 class="justify-content-center align-items-center">Hello, {% if users[0]["name"] %} {{users[0]["name"]}}! {% else %}
+    World! {% endif %}
+    {% if gmt >= 0%} You are now on GMT+{{gmt}}
+    {% else %} You are now on GMT{{gmt}}
+    {% endif %}
+</h1>
+<br>
+<hr>
+<h1 class="text-success fw-bold">Total Tasks: {{rows_comp|length + rows_pen|length}}</h1>
+<hr>
+<h2 class="text-warning align-items-center">Pending Tasks: {{rows_pen|length}}</h2>
+<div class="table-responsive">
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Creation Date</th>
+                <th>Due to</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for row in rows_pen %}
+            {% set due = row.due_date + " " + row.due_time %}
+            <tr>
+                <td class="long-text">{{ row.title }}</td>
+                <td class="long-text">{{ row.description }}</td>
+                <td class="date">{{ row.date }}</td>
+                {% if due > row.date %}
+                <td class="date">{{ due }}</td>
+                {% else %}
+                <td class="date" style="color: red;">Invalid Date</td>
+                {% endif %}
+                <td>Pending</td>
+                <td class="action">
+                    <form action="/complete/{{ row.task_id }}" method="post" title="Mark as complete"
+                        style="display:inline;">
+                        <button class="btn btn-success btn-sm">
+                            <img src="/static/check-circle.svg" height="15" width="15" alt="Mark as complete">
+                        </button>
+                    </form>
+                    {% if row.starred == 0 %}
+                    <form action="/star/{{ row.task_id }}" method="post" title="Mark as important" style="display:inline;">
+                        <button class="btn btn-warning btn-sm">
+                            <img src="/static/star.svg" height="15" width="15" alt="Star Task">
+                        </button>
+                    </form>
+                    {% else %}
+                    <form action="/unstar/{{ row.task_id }}" method="post" title="Important Task" style="display:inline;">
+                        <button class="btn btn-warning btn-sm">
+                            <img src="/static/star-fill.svg" height="15" width="15" alt="Unstar Task">
+                        </button>
+                    </form>
+                    {% endif %}
+                    <form action="/delete/{{ row.task_id }}" method="post" title="Delete Task" style="display:inline;">
+                        <button class="btn btn-danger btn-sm">
+                            <img src="/static/trash.svg" height="15" width="15" alt="Delete Task">
+                        </button>
+                    </form>
+
+
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<br>
+<h2 class="text-warning">Completed Tasks: {{rows_comp|length}}</h2>
+
+<div class="table-responsive">
+    <table class="table table-dark table-striped">
+        <thead>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Creation Date</th>
+            <th>Due to</th>
+            <th>Status</th>
+            <th>Action</th>
+        </thead>
+
+        <tbody>
+            {% for row in rows_comp %}
+            {% set due = row.due_date + " " +row.due_time %}
+            <tr>
+                <td class="long-text">{{ row.title }}</td>
+                <td class="long-text">{{ row.description }}</td>
+                <td class="date">{{ row.date }}</td>
+
+                {% if due > row.date %}
+                <td class="date">{{ due }}</td>
+                {% else %}
+                <td class="date" style="color: red;">Invalid Date</td>
+                {% endif %}
+
+                <td>Completed</td>
+                <td class="action">
+                    <form action="/incomplete/{{row.task_id}}" method="post" title="Mark as incomplete"
+                        style="display:inline;">
+                        <button class="btn btn-success btn-sm">
+                            <img src="/static/arrow-clockwise.svg" height="15" width="15" alt="Mark as incomplete">
+                        </button>
+                    </form>
+                    {% if row.starred == 0 %}
+                    <form action="/star/{{ row.task_id }}" method="post" title="Mark as important" style="display:inline;">
+                        <button class="btn btn-warning btn-sm">
+                            <img src="/static/star.svg" height="15" width="15" alt="Star Task">
+                        </button>
+                    </form>
+                    {% else %}
+                    <form action="/unstar/{{ row.task_id }}" method="post" title="Important Task" style="display:inline;">
+                        <button class="btn btn-warning btn-sm">
+                            <img src="/static/star-fill.svg" height="15" width="15" alt="Unstar Task">
+                        </button>
+                    </form>
+                    {% endif %}
+                    <form action="/delete/{{row.task_id}}" method="post" title="Delete Task" style="display:inline;">
+                        <button class="btn btn-danger btn-sm">
+                            <img src="/static/trash.svg" height="15" width="15" alt="Delete Task">
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<br>
+
+<hr>
+{% endblock %}

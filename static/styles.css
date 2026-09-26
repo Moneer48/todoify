@@ -1,0 +1,54 @@
+body {
+    background-color: #1f2937;
+}
+
+main {
+    margin-top: 50px;
+    width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+    color: white;
+}
+
+hr {
+    color: white;
+}
+
+.desc {
+    max-width: 30rem;
+    align-items: center;
+}
+
+td.date {
+    min-width: 170px;
+}
+
+td.long-text {
+    max-width: 250px;
+    overflow-wrap: anywhere;
+}
+
+td.action {
+    min-width: 160px;
+}
+
+#login {
+    color: white;
+    border-width: 2px;
+}
+
+.foott
+{
+    color: white;
+}
+
+.welcome-text
+{
+    font-size: 90px
+}

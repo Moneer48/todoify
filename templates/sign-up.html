@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Sign Up
+{% endblock %}
+
+{% block main %}
+
+<form action="/sign-up" method="post" class="text-center">
+    <img class="mb-4" src="/static/todoify.png" alt="" width="72" height="72">
+    <h1>Sign Up</h1>
+
+    <div class="container mt-4">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <div class="form-floating my-2" style="width: 100%; max-width: 400px;">
+            <input type="text" name="name" autocomplete='off' autofocus class="form-control" pattern="[A-Za-z\s]+"
+                id="name" title="Only letters and spaces are allowed" placeholder="Name" maxlength="30">
+            <label for="name">Full Name (Optional)</label>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="form-floating my-2" style="width: 100%; max-width: 400px;">
+            <input required type="text" name="username" autocomplete='off' class="form-control" id="username" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]+$"
+                title="Username can be least one letter and one number" placeholder="Username" minlength="4">
+            <label for="username">Username</label>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <div class="form-floating my-2" style="width: 100%; max-width: 400px;">
+            <input required type="password" name="password" class="form-control" id="password" placeholder="Password">
+            <label for="password">Password</label>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="form-floating my-2" style="width: 100%; max-width: 400px;">
+            <input required type="password" name="confirmation" class="form-control" id="confirmation"
+                placeholder="Confirm Password">
+            <label for="confirmation">Confirm Password</label>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="form-floating my-2" style="width: 100%; max-width: 400px;">
+            <select required name="timezone" class="form-select" id="timezone">
+                <option value="" hidden>Choose Timezone (GMT)</option>
+                {% for i in range(-12, +13) %}
+                {% if i < 0 %} <option value="{{i}}">GMT{{i}}</option>
+                    {% else %}
+                    <option value="{{i}}">GMT+{{i}}</option>
+                    {% endif %}
+                    {% endfor %}
+            </select>
+            <label for="timezone">Timezone</label>
+        </div>
+    </div>
+
+
+    <button class="btn btn-lg btn-primary my-4 w-100" style="max-width: 400px;" type="submit">Submit</button>
+</form>
+
+
+
+
+{% endblock %}

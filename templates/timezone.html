@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}Change Time Zone{% endblock %}
+
+{% block main%}
+<h1>Change Time Zone</h1>
+<h1 class="lead text-secondary mt-3 text-danger">Caution: This is not applicable for previous tasks. Upcoming tasks only!</h1>
+<hr>
+<form action="/time-zone" method="post" class="text-center">
+    <div class="container mt-4">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="form-floating my-2" style="width: 100%; max-width: 400px;">
+            <select required name="timezone" class="form-select" id="timezone">
+                <option value="" hidden>Choose Timezone (GMT)</option>
+                {% for i in range(-12, +13) %}
+                {% if i < 0 %} <option value="{{i}}">GMT{{i}}</option>
+                    {% else %}
+                    <option value="{{i}}">GMT+{{i}}</option>
+                    {% endif %}
+                    {% endfor %}
+            </select>
+            <label for="timezone">Timezone</label>
+        </div>
+    </div>
+
+    <button class="btn btn-lg btn-primary my-4 w-100" style="max-width: 400px;" type="submit">Change</button>
+
+</form>
+{% endblock %}

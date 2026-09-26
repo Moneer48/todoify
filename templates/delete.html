@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block title %}Delete Account{% endblock %}
+
+{% block main %}
+<h1>Delete Account</h1>
+<h1 class="lead text-secondary mt-3 text-danger">Caution: This is a permanent action. You will not be able to login again!</h1>
+<hr>
+
+<form action="/delete-account" method="post" class="text-center">
+
+    <div class="container mt-4">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <div class="form-floating my-2" style="width: 100%; max-width: 400px;">
+            <input disabled type="text" name="password" class="form-control" id="username"
+                placeholder="Username">
+            <label for="username">Username: "{{username}}"</label>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="form-floating my-2" style="width: 100%; max-width: 400px;">
+            <input required type="password" name="password" class="form-control" id="new"
+                placeholder="Password">
+            <label for="new">Password</label>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <div class="form-floating my-2" style="width: 100%; max-width: 400px;">
+            <input required type="password" name="confirmation" class="form-control" id="conf"
+                placeholder="Confirm Password">
+            <label for="conf">Confirm Password</label>
+        </div>
+    </div>
+
+    <button class="btn btn-lg btn-danger my-4 w-100" style="max-width: 400px;" type="submit">Delete Permanently</button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "layout.html" %} {% block title %}Starred Tasks{% endblock %}
+
+
+{% block main %}
+<h1>Important Tasks: {{rows_star|length}}</h1>
+<hr>
+
+<div class="table-responsive">
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Creation Date</th>
+                <th>Due to</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for row in rows_star %}
+            {% set due = row.due_date + " " + row.due_time %}
+            <tr>
+                <td class="long-text">{{ row.title }}</td>
+                <td class="long-text">{{ row.description }}</td>
+                <td class="date">{{ row.date }}</td>
+                {% if due > row.date %}
+                <td class="date">{{ due }}</td>
+                {% else %}
+                <td class="date" style="color: red;">Invalid Date</td>
+                {% endif %}
+                <td>{% if row.status == 1 %}Completed{% else %}Pending{% endif %}</td>
+                <td class="action">
+                    <form action="/unstar/{{ row.task_id }}" method="post" style="display:inline;">
+                        <button class="btn btn-warning btn-sm" title="Marked as important">
+                            <img src="/static/star-fill.svg" class="mb-1" height="15" width="15" alt="Star Fill">
+                        </button>
+                    </form>
+
+                    <form action="/delete/{{ row.task_id }}" method="post" style="display:inline;">
+                        <button class="btn btn-danger btn-sm" title="Delete Task">
+                            <img src="/static/trash.svg" height="15" width="15" alt="Delete Task">
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
